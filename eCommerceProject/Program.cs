@@ -8,7 +8,6 @@ namespace ECommerce
     {
         static void Main(string[] args)
         {
-            var lastKey = 0;
             Console.WriteLine("Welcome to Congo!");
             Console.WriteLine("C. Create new inventory item");
             Console.WriteLine("R. Read all inventory items");
@@ -27,9 +26,8 @@ namespace ECommerce
                 {
                     case 'C':
                     case 'c':
-                        list.Add(new Product
+                        ProductServiceProxy.Current.AddOrUpdate(new Product
                         {
-                            Id = ++lastKey,
                             Name = Console.ReadLine()
                         });
                         break;
@@ -43,9 +41,11 @@ namespace ECommerce
                         Console.WriteLine("Which product would you like to update?");
                         int selection = int.Parse(Console.ReadLine() ?? "-1");
                         var selectedProd = list.FirstOrDefault(p => p.Id == selection);
+
                         if (selectedProd != null)
                         {
                             selectedProd.Name = Console.ReadLine() ?? "ERROR";
+                            ProductServiceProxy.Current.AddOrUpdate(selectedProd);
                         }
                         break;
                     case 'D':
@@ -53,8 +53,7 @@ namespace ECommerce
                         //select a product and delete it
                         Console.WriteLine("Which product would you like to delete?");
                         selection = int.Parse(Console.ReadLine() ?? "-1");
-                        selectedProd = list.FirstOrDefault(p => p.Id == selection);
-                        list.Remove(selectedProd);
+                        ProductServiceProxy.Current.Delete(selection);
                         break;
                     case 'Q':
                     case 'q':
