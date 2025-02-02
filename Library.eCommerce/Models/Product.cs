@@ -10,17 +10,21 @@ namespace eCommercePlatform.Models
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public double? Price { get; set; }
+        public int? Quantity { get; set; }
 
         public string? Display
         {
             get
             {
-                return $"{Id}. {Name}";
+                return $"{Id}. {Name}\tPrice: ${Price}\tQuantity: {Quantity}";
             }
         }
         public Product()
         {
             Name = string.Empty;
+            Price = -1;
+            Quantity = -1;
         }
 
         public override string ToString()
